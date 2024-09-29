@@ -60,13 +60,9 @@ class SummaryService(summary_pb2_grpc.SummaryService) :
         simplifytext =  self.model.predict([sentence])
 
         response = summary_pb2.SummaryNewsResponse()
-        for item in news_items:
-            news_item = response.news.add()
-            news_item.data = item["data"]
-            news_item.category = item["category"]
-            news_item.date = item["date"]
-            news_item.publisher = item["publisher"]
-            news_item.url = item["url"]
+        summarizedtext = response.summarizedtext.add()
+        summarizedtext.success = True
+        summarizedtext.summarized_text = simplifytext
         return response
 
     def consume_messages(self):
