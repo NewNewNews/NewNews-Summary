@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package summaryservice;
+
+service SummaryService {
+  rpc SummarizeNews (SummaryNewsRequest) returns (SummaryNewsResponse) {}
+}
+
+message SummaryNewsRequest {
+  string text = 1;
+}
+
+message SummaryNewsResponse {
+  bool success = 1;
+  string summarized_text = 2;
+}
