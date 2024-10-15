@@ -6,13 +6,15 @@ from concurrent import futures
 import grpc
 from proto import news_message_pb2
 import json
+import time
 from confluent_kafka import Consumer,Producer, KafkaError
 from confluent_kafka.serialization import (
     StringSerializer,
     SerializationContext,
     MessageField,
 )
-from confluent_kafka.schema_registry.protobuf import ProtobufSerializer, ProtobufDeserializer, StringDeserializer
+from confluent_kafka.schema_registry.protobuf import ProtobufSerializer, ProtobufDeserializer
+from confluent_kafka.serialization import StringDeserializer
 from confluent_kafka.schema_registry import SchemaRegistryClient
 from proto import summary_pb2_grpc
 from proto import summary_pb2
@@ -48,21 +50,20 @@ class SummaryService(summary_pb2_grpc.SummaryService) :
 
         self.model = T5Model("t5", "thanathorn/mt5-cpe-kmutt-thai-sentence-sum", use_cuda=torch.cuda.is_available())
 
-        self.protobuf_serializer = ProtobufSerializer(
-            news_message_pb2.NewsMessage,
-            self.schema_registry_client,
-            conf={"use.deprecated.format": True},
-        )
+        # self.protobuf_serializer = ProtobufSerializer(
+        #     news_message_pb2.NewsMessage,
+        #     self.schema_registry_client,
+        #     conf={"use.deprecated.format": True},
+        # )
         self.string_serializer = StringSerializer("utf8")
     
     def SummarizeNews(self, request, context):
-        sentence = "simplify: "+request.text
-        simplifytext =  self.model.predict([sentence])
+        sentence = "simplify: " + request.text
+        simplifytext = self.model.predict([sentence])
 
         response = summary_pb2.SummaryNewsResponse()
-        summarizedtext = response.summarizedtext.add()
-        summarizedtext.success = True
-        summarizedtext.summarized_text = simplifytext
+        response.success = True
+        response.summarized_text = simplifytext[0]  # Use the first item from the list returned by predict
         return response
 
     def consume_messages(self):
@@ -104,8 +105,25 @@ class SummaryService(summary_pb2_grpc.SummaryService) :
             self.consumer.close()  # Ensure the consumer is closed on shutdown
 
 if __name__ == '__main__' :
-    print("test")
-    # model = T5Model("t5", "thanathorn/mt5-cpe-kmutt-thai-sentence-sum", use_cuda=torch.cuda.is_available())
-    # sentence = "simplify: ถ้าพูดถึงขนมหวานในตำนานที่ชื่นใจที่สุดแล้วละก็ต้องไม่พ้น น้ำแข็งใส แน่เพราะว่าเป็นอะไรที่ชื่นใจสุด"
-    # prediction = model.predict([sentence])
-    # print(prediction[0])
+    # Create an instance of the service
+    service = SummaryService()
+    
+    # Set up the gRPC server
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    summary_pb2_grpc.add_SummaryServiceServicer_to_server(service, server)
+    
+    # Define the port to listen on
+    port = os.environ.get("GRPC_PORT", "50051")
+    server.add_insecure_port(f"[::]:{port}")
+    print(f"Starting gRPC server on port {port}...")
+    
+    # Start the server
+    server.start()
+    
+    try:
+        # This keeps the server running indefinitely
+        while True:
+            time.sleep(86400)
+    except KeyboardInterrupt:
+        print("Shutting down server...")
+        server.stop(0)
