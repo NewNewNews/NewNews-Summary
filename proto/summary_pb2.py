@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rsummary.proto\x12\x0esummaryservice\"\"\n\x12SummaryNewsRequest\x12\x0c\n\x04text\x18\x01 \x01(\t\"?\n\x13SummaryNewsResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x17\n\x0fsummarized_text\x18\x02 \x01(\t2l\n\x0eSummaryService\x12Z\n\rSummarizeNews\x12\".summaryservice.SummaryNewsRequest\x1a#.summaryservice.SummaryNewsResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rsummary.proto\x12\x0esummaryservice\"b\n\x12SummaryNewsRequest\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\x12\x10\n\x08\x63\x61tegory\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x03 \x01(\t\x12\x11\n\tpublisher\x18\x04 \x01(\t\x12\x0b\n\x03url\x18\x05 \x01(\t\"?\n\x13SummaryNewsResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x17\n\x0fsummarized_text\x18\x02 \x01(\t\"%\n\x12UpdateNewsResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"%\n\x12\x44\x65leteNewsResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x32\x96\x02\n\x0eSummaryService\x12T\n\x07GetNews\x12\".summaryservice.SummaryNewsRequest\x1a#.summaryservice.SummaryNewsResponse\"\x00\x12V\n\nUpdateNews\x12\".summaryservice.SummaryNewsRequest\x1a\".summaryservice.UpdateNewsResponse\"\x00\x12V\n\nDeleteNews\x12\".summaryservice.SummaryNewsRequest\x1a\".summaryservice.DeleteNewsResponse\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,9 +32,13 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'summary_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_SUMMARYNEWSREQUEST']._serialized_start=33
-  _globals['_SUMMARYNEWSREQUEST']._serialized_end=67
-  _globals['_SUMMARYNEWSRESPONSE']._serialized_start=69
-  _globals['_SUMMARYNEWSRESPONSE']._serialized_end=132
-  _globals['_SUMMARYSERVICE']._serialized_start=134
-  _globals['_SUMMARYSERVICE']._serialized_end=242
+  _globals['_SUMMARYNEWSREQUEST']._serialized_end=131
+  _globals['_SUMMARYNEWSRESPONSE']._serialized_start=133
+  _globals['_SUMMARYNEWSRESPONSE']._serialized_end=196
+  _globals['_UPDATENEWSRESPONSE']._serialized_start=198
+  _globals['_UPDATENEWSRESPONSE']._serialized_end=235
+  _globals['_DELETENEWSRESPONSE']._serialized_start=237
+  _globals['_DELETENEWSRESPONSE']._serialized_end=274
+  _globals['_SUMMARYSERVICE']._serialized_start=277
+  _globals['_SUMMARYSERVICE']._serialized_end=555
 # @@protoc_insertion_point(module_scope)

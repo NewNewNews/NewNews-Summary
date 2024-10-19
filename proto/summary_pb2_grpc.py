@@ -5,7 +5,7 @@ import warnings
 
 from . import summary_pb2 as summary__pb2
 
-GRPC_GENERATED_VERSION = '1.66.1'
+GRPC_GENERATED_VERSION = '1.67.0'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
@@ -34,17 +34,39 @@ class SummaryServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.SummarizeNews = channel.unary_unary(
-                '/summaryservice.SummaryService/SummarizeNews',
+        self.GetNews = channel.unary_unary(
+                '/summaryservice.SummaryService/GetNews',
                 request_serializer=summary__pb2.SummaryNewsRequest.SerializeToString,
                 response_deserializer=summary__pb2.SummaryNewsResponse.FromString,
+                _registered_method=True)
+        self.UpdateNews = channel.unary_unary(
+                '/summaryservice.SummaryService/UpdateNews',
+                request_serializer=summary__pb2.SummaryNewsRequest.SerializeToString,
+                response_deserializer=summary__pb2.UpdateNewsResponse.FromString,
+                _registered_method=True)
+        self.DeleteNews = channel.unary_unary(
+                '/summaryservice.SummaryService/DeleteNews',
+                request_serializer=summary__pb2.SummaryNewsRequest.SerializeToString,
+                response_deserializer=summary__pb2.DeleteNewsResponse.FromString,
                 _registered_method=True)
 
 
 class SummaryServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def SummarizeNews(self, request, context):
+    def GetNews(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UpdateNews(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def DeleteNews(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -53,10 +75,20 @@ class SummaryServiceServicer(object):
 
 def add_SummaryServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'SummarizeNews': grpc.unary_unary_rpc_method_handler(
-                    servicer.SummarizeNews,
+            'GetNews': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetNews,
                     request_deserializer=summary__pb2.SummaryNewsRequest.FromString,
                     response_serializer=summary__pb2.SummaryNewsResponse.SerializeToString,
+            ),
+            'UpdateNews': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateNews,
+                    request_deserializer=summary__pb2.SummaryNewsRequest.FromString,
+                    response_serializer=summary__pb2.UpdateNewsResponse.SerializeToString,
+            ),
+            'DeleteNews': grpc.unary_unary_rpc_method_handler(
+                    servicer.DeleteNews,
+                    request_deserializer=summary__pb2.SummaryNewsRequest.FromString,
+                    response_serializer=summary__pb2.DeleteNewsResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -70,7 +102,7 @@ class SummaryService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def SummarizeNews(request,
+    def GetNews(request,
             target,
             options=(),
             channel_credentials=None,
@@ -83,9 +115,63 @@ class SummaryService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/summaryservice.SummaryService/SummarizeNews',
+            '/summaryservice.SummaryService/GetNews',
             summary__pb2.SummaryNewsRequest.SerializeToString,
             summary__pb2.SummaryNewsResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def UpdateNews(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/summaryservice.SummaryService/UpdateNews',
+            summary__pb2.SummaryNewsRequest.SerializeToString,
+            summary__pb2.UpdateNewsResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def DeleteNews(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/summaryservice.SummaryService/DeleteNews',
+            summary__pb2.SummaryNewsRequest.SerializeToString,
+            summary__pb2.DeleteNewsResponse.FromString,
             options,
             channel_credentials,
             insecure,
