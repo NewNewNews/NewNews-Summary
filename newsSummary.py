@@ -4,7 +4,7 @@ import os
 from bson.objectid import ObjectId
 from concurrent import futures
 import grpc
-from proto import news_message_pb2
+from protos import news_message_pb2
 import json
 import time
 from confluent_kafka import Consumer,Producer, KafkaError
@@ -16,8 +16,8 @@ from confluent_kafka.serialization import (
 from confluent_kafka.schema_registry.protobuf import ProtobufSerializer, ProtobufDeserializer
 from confluent_kafka.serialization import StringDeserializer
 from confluent_kafka.schema_registry import SchemaRegistryClient
-from proto import summary_pb2_grpc
-from proto import summary_pb2
+from protos import summary_pb2_grpc
+from protos import summary_pb2
 from simpletransformers.t5 import T5Model, T5Args
 import torch
 
@@ -28,11 +28,11 @@ class SummaryService(summary_pb2_grpc.SummaryService) :
 
         # MongoDB connection setup
         self.mongo_client = MongoClient(mongo_uri)
-        self.db = self.mongo_client["news_db"]
-        self.collection = self.db["news"]
+        self.db = self.mongo_client["example_database"]
+        self.collection = self.db["example_collection"]
         print(f"Connected to MongoDB at: {mongo_uri}")
 
-    def GetNews(self, request, context):
+    def SummarizeNews(self, request, context):
         # Search MongoDB collection using the provided URL
         news_document = self.collection.find_one({"url": request.url})
         if news_document:
@@ -54,63 +54,63 @@ class SummaryService(summary_pb2_grpc.SummaryService) :
             response.summarized_text = "No news found for the given URL."
             return response
 
-    def UpdateNews(self, request, context):
-        # Find the news document in MongoDB by URL
-        news_document = self.collection.find_one({"url": request.url})
+    # def UpdateNews(self, request, context):
+    #     # Find the news document in MongoDB by URL
+    #     news_document = self.collection.find_one({"url": request.url})
 
-        if news_document:
-            # Prepare the fields to update
-            update_fields = {}
-            if request.data:
-                update_fields["data"] = request.data
-            if request.date:
-                update_fields["date"] = request.date
-            if request.publisher:
-                update_fields["publisher"] = request.publisher
-            if request.category:
-                update_fields["category"] = request.category
+    #     if news_document:
+    #         # Prepare the fields to update
+    #         update_fields = {}
+    #         if request.data:
+    #             update_fields["data"] = request.data
+    #         if request.date:
+    #             update_fields["date"] = request.date
+    #         if request.publisher:
+    #             update_fields["publisher"] = request.publisher
+    #         if request.category:
+    #             update_fields["category"] = request.category
 
-            # Only proceed if there are fields to update
-            if update_fields:
-                update_result = self.collection.update_one(
-                    {"url": request.url},  # Filter by URL
-                    {"$set": update_fields}  # Set the new values
-                )
+    #         # Only proceed if there are fields to update
+    #         if update_fields:
+    #             update_result = self.collection.update_one(
+    #                 {"url": request.url},  # Filter by URL
+    #                 {"$set": update_fields}  # Set the new values
+    #             )
 
-                response = summary_pb2.UpdateNewsResponse()
-                if update_result.modified_count > 0:
-                    # Successfully updated the document
-                    response.success = True
-                else:
-                    # The document was found but nothing was updated (e.g., if the data was identical)
-                    response.success = True
+    #             response = summary_pb2.UpdateNewsResponse()
+    #             if update_result.modified_count > 0:
+    #                 # Successfully updated the document
+    #                 response.success = True
+    #             else:
+    #                 # The document was found but nothing was updated (e.g., if the data was identical)
+    #                 response.success = True
 
-                return response
-            else:
-                # Return a failure response if no valid fields were provided for update
-                response = summary_pb2.SummaryNewsResponse()
-                response.success = False
-                return response
-        else:
-            # Return a failure response if no document found with the provided URL
-            response = summary_pb2.SummaryNewsResponse()
-            response.success = False
-            return response
+    #             return response
+    #         else:
+    #             # Return a failure response if no valid fields were provided for update
+    #             response = summary_pb2.SummaryNewsResponse()
+    #             response.success = False
+    #             return response
+    #     else:
+    #         # Return a failure response if no document found with the provided URL
+    #         response = summary_pb2.SummaryNewsResponse()
+    #         response.success = False
+    #         return response
     
-    def DeleteNews(self, request, context):
-        # Find and delete the news document in MongoDB by URL
-        delete_result = self.collection.delete_one({"url": request.url})
+    # def DeleteNews(self, request, context):
+    #     # Find and delete the news document in MongoDB by URL
+    #     delete_result = self.collection.delete_one({"url": request.url})
 
-        response = summary_pb2.DeleteNewsResponse()
+    #     response = summary_pb2.DeleteNewsResponse()
 
-        if delete_result.deleted_count > 0:
-            # If a document was deleted, return success
-            response.success = True
-        else:
-            # No document was found with the given URL
-            response.success = False
+    #     if delete_result.deleted_count > 0:
+    #         # If a document was deleted, return success
+    #         response.success = True
+    #     else:
+    #         # No document was found with the given URL
+    #         response.success = False
 
-        return response
+    #     return response
 
 if __name__ == '__main__' :
     # Create an instance of the service

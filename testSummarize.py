@@ -1,5 +1,5 @@
 import grpc
-from proto import summary_pb2, summary_pb2_grpc
+from protos import summary_pb2, summary_pb2_grpc
 
 def run():
     # Connect to the gRPC server
@@ -8,7 +8,7 @@ def run():
         stub = summary_pb2_grpc.SummaryServiceStub(channel)
 
         # Create a request with the text you want to summarize
-        request = summary_pb2.SummaryNewsRequest(text="Your news article content goes here.")
+        request = summary_pb2.SummaryNewsRequest(url="https://naturemagazine.com/ocean-exploration")
 
         # Send the request and get the response
         response = stub.SummarizeNews(request)
