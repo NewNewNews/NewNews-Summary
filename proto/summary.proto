@@ -3,14 +3,28 @@ syntax = "proto3";
 package summaryservice;
 
 service SummaryService {
-  rpc SummarizeNews (SummaryNewsRequest) returns (SummaryNewsResponse) {}
+  rpc GetNews (SummaryNewsRequest) returns (SummaryNewsResponse) {}
+  rpc UpdateNews (SummaryNewsRequest) returns (UpdateNewsResponse) {}
+  rpc DeleteNews (SummaryNewsRequest) returns (DeleteNewsResponse) {}
 }
 
 message SummaryNewsRequest {
-  string text = 1;
+  string data = 1;
+  string category = 2;
+  string date = 3;
+  string publisher = 4;
+  string url = 5;
 }
 
 message SummaryNewsResponse {
   bool success = 1;
   string summarized_text = 2;
+}
+
+message UpdateNewsResponse {
+  bool success = 1;
+}
+
+message DeleteNewsResponse {
+  bool success = 1;
 }

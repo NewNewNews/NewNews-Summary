@@ -24,7 +24,7 @@ import torch
 class SummaryService(summary_pb2_grpc.SummaryService) :
     def __init__(self):
         mongo_uri = os.environ.get("MONGO_URI", "mongodb://localhost:27017/")
-        kafka_broker = os.environ.get("KAFKA_BROKER", "localhost:9092")
+        # kafka_broker = os.environ.get("KAFKA_BROKER", "localhost:9092")
 
         # MongoDB connection setup
         self.mongo_client = MongoClient(mongo_uri)
@@ -33,13 +33,13 @@ class SummaryService(summary_pb2_grpc.SummaryService) :
         print(f"Connected to MongoDB at: {mongo_uri}")
 
         # Kafka Consumer configuration
-        consumer_conf = {
-            "bootstrap.servers": kafka_broker,
-            "group.id": "news_group",  # Consumer group ID
-            "auto.offset.reset": "earliest",  # Start from the earliest message if no offset is set
-        }
-        self.consumer = Consumer(consumer_conf)
-        self.consumer.subscribe(["scraped-news"])  # Subscribing to Kafka topic
+        # consumer_conf = {
+        #     "bootstrap.servers": kafka_broker,
+        #     "group.id": "news_group",  # Consumer group ID
+        #     "auto.offset.reset": "earliest",  # Start from the earliest message if no offset is set
+        # }
+        # self.consumer = Consumer(consumer_conf)
+        # self.consumer.subscribe(["scraped-news"])  # Subscribing to Kafka topic
 
         # Set up deserializers
         self.protobuf_deserializer = ProtobufDeserializer(
