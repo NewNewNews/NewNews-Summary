@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rsummary.proto\x12\x0esummaryservice\"\"\n\x12SummaryNewsRequest\x12\x0c\n\x04text\x18\x01 \x01(\t\"?\n\x13SummaryNewsResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x17\n\x0fsummarized_text\x18\x02 \x01(\t2l\n\x0eSummaryService\x12Z\n\rSummarizeNews\x12\".summaryservice.SummaryNewsRequest\x1a#.summaryservice.SummaryNewsResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rsummary.proto\x12\x0esummaryservice\"!\n\x12SummaryNewsRequest\x12\x0b\n\x03url\x18\x01 \x01(\t\"?\n\x13SummaryNewsResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x17\n\x0fsummarized_text\x18\x02 \x01(\t2l\n\x0eSummaryService\x12Z\n\rSummarizeNews\x12\".summaryservice.SummaryNewsRequest\x1a#.summaryservice.SummaryNewsResponse\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,9 +32,9 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'summary_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_SUMMARYNEWSREQUEST']._serialized_start=33
-  _globals['_SUMMARYNEWSREQUEST']._serialized_end=67
-  _globals['_SUMMARYNEWSRESPONSE']._serialized_start=69
-  _globals['_SUMMARYNEWSRESPONSE']._serialized_end=132
-  _globals['_SUMMARYSERVICE']._serialized_start=134
-  _globals['_SUMMARYSERVICE']._serialized_end=242
+  _globals['_SUMMARYNEWSREQUEST']._serialized_end=66
+  _globals['_SUMMARYNEWSRESPONSE']._serialized_start=68
+  _globals['_SUMMARYNEWSRESPONSE']._serialized_end=131
+  _globals['_SUMMARYSERVICE']._serialized_start=133
+  _globals['_SUMMARYSERVICE']._serialized_end=241
 # @@protoc_insertion_point(module_scope)
