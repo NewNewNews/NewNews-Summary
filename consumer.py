@@ -19,8 +19,8 @@ import torch
 def create_summary(url, content):
     print('processing url:', url)
     sentence = "simplify: " + content
-    simplifytext = model.predict([sentence])
-    db.save_summary(url=url,summarized_text=simplifytext[0])
+    # simplifytext = model.predict([sentence])
+    db.save_summary(url=url,summarized_text=content[0:100])
     
 def main():
     # schema_registry_conf = {
@@ -36,7 +36,7 @@ def main():
     string_deserializer = StringDeserializer("utf_8")
 
     consumer_conf = {
-        "bootstrap.servers": "localhost:9092",
+        "bootstrap.servers": os.environ.get("KAFKA_BROKER", "localhost:9092"),
         "group.id": "news_group",
         "auto.offset.reset": "earliest",
     }
