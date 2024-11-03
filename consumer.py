@@ -9,7 +9,7 @@ from protos import news_message_pb2, summary_pb2  # generated from .proto
 import os
 from db import SummaryDatabase
 from dotenv import load_dotenv
-from simpletransformers.t5 import T5Model, T5Args
+# from simpletransformers.t5 import T5Model, T5Args
 import torch
 
 # from confluent_kafka.schema_registry import SchemaRegistryClient
@@ -74,6 +74,6 @@ def main():
 
 if __name__ == "__main__":
     load_dotenv()
-    model = T5Model("t5", "thanathorn/mt5-cpe-kmutt-thai-sentence-sum", use_cuda=torch.cuda.is_available())
+    # model = T5Model("t5", "thanathorn/mt5-cpe-kmutt-thai-sentence-sum", use_cuda=torch.cuda.is_available())
     db = SummaryDatabase(os.getenv("MONGODB_URI"))
     main()
