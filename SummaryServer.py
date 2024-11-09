@@ -18,10 +18,8 @@ from confluent_kafka.serialization import StringDeserializer
 from confluent_kafka.schema_registry import SchemaRegistryClient
 from protos import summary_pb2_grpc
 from protos import summary_pb2
-from simpletransformers.t5 import T5Model, T5Args
 from dotenv import load_dotenv
 from db import SummaryDatabase
-import torch
 
 class SummaryService(summary_pb2_grpc.SummaryService) :
     def __init__(self):

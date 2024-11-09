@@ -36,8 +36,8 @@ def initialize_model(Username,Password) :
     username = driver.find_element(By.CSS_SELECTOR, 'input[name="username"]')
     password = driver.find_element(By.CSS_SELECTOR, 'input[name="Password"]')
 
-    username.send_keys("JdaKung@gmail.com")
-    password.send_keys("3xp{Kz7r2(rK")
+    username.send_keys(Username)
+    password.send_keys(Password)
 
     time.sleep(1)
 
@@ -80,21 +80,33 @@ def summarize(Username,Password,content) :
     
     buttons[2].click()
 
-    time.sleep(20)
+    print("Summarizing text...")
 
-    textarea = driver.find_element(By.CLASS_NAME, "css-1stoj7k-textarea")
+    time.sleep(15)
 
-    summary = textarea.text
+    textarea = driver.find_elements(By.CLASS_NAME, "css-1stoj7k-textarea")
 
+    if(len(textarea) > 1 and not (textarea[1].text.isspace() or textarea[1].text == "")) :
+        summary = textarea[1].text
+    else :
+        summary = textarea[0].text
+    
     print(summary)
 
     driver.get("https://wordcount.com/th/text-summarizer")
 
     time.sleep(2)
 
-    delete = driver.find_element(By.CSS_SELECTOR, 'button[class="css-1oynujq-button css-7xt92p-buttonIcon css-1cvsyjy"]')
-    delete.click()
+    delete = driver.find_elements(By.CSS_SELECTOR, 'button[class="css-1oynujq-button css-7xt92p-buttonIcon css-1cvsyjy"]')
+    pre = len(delete)
+    while(len(delete) > 0) :
+        delete[0].click()
+        time.sleep(1)
+        delete = driver.find_elements(By.CSS_SELECTOR, 'button[class="css-1oynujq-button css-7xt92p-buttonIcon css-1cvsyjy"]')
+        if(len(delete) == pre) : break
+        pre = len(delete)
 
+    return summary
     # while(True):
     #     pass
 
@@ -209,6 +221,6 @@ def summarize(Username,Password,content) :
             
     #     startingyear += 1
 
-if __name__ == "__main__" :
-    # initialize_model(1,1)
-    summarize(1,2,3)
+# if __name__ == "__main__" :
+#     # initialize_model(1,1)
+#     summarize(1,2,3)

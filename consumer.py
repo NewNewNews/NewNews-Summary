@@ -9,18 +9,13 @@ from protos import news_message_pb2, summary_pb2  # generated from .proto
 import os
 from db import SummaryDatabase
 from dotenv import load_dotenv
-# from simpletransformers.t5 import T5Model, T5Args
-import torch
-
-# from confluent_kafka.schema_registry import SchemaRegistryClient
-
-# model = T5Model("t5", "thanathorn/mt5-cpe-kmutt-thai-sentence-sum", use_cuda=torch.cuda.is_available())
+from summarize_requests import summarize
 
 def create_summary(url, content):
     print('processing url:', url)
-    sentence = "simplify: " + content
+    summary = summarize(os.getenv("USERNAME"),os.getenv("PASSWORD"),content)
     # simplifytext = model.predict([sentence])
-    db.save_summary(url=url,summarized_text=content[0:100])
+    db.save_summary(url=url,summarized_text=summary)
     
 def main():
     # schema_registry_conf = {
@@ -74,6 +69,5 @@ def main():
 
 if __name__ == "__main__":
     load_dotenv()
-    # model = T5Model("t5", "thanathorn/mt5-cpe-kmutt-thai-sentence-sum", use_cuda=torch.cuda.is_available())
     db = SummaryDatabase(os.getenv("MONGODB_URI"))
     main()

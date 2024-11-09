@@ -17,7 +17,12 @@ COPY . .
 EXPOSE 50053
 
 # Install supervisord for running multiple processes
-RUN apt-get update && apt-get install -y supervisor && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y supervisor
+RUN apt-get install -y wget unzip fonts-liberation libglib2.0-0 libnss3 libx11-xcb1 libxcomposite1 libxdamage1 libxrandr2 libgbm1 libgtk-3-0 libasound2
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
+RUN rm google-chrome-stable_current_amd64.deb
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy supervisord configuration file
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
