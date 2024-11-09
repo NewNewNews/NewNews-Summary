@@ -86,7 +86,7 @@ def summarize(Username,Password,content) :
 
     textarea = driver.find_elements(By.CLASS_NAME, "css-1stoj7k-textarea")
 
-    if(len(textarea) > 1 and (textarea[1].text.isspace() or textarea[1].text == "")) :
+    if(len(textarea) > 1 and not (textarea[1].text.isspace() or textarea[1].text == "")) :
         summary = textarea[1].text
     else :
         summary = textarea[0].text
