@@ -1,4 +1,5 @@
-# pip install pandas selenium requests beautifulsoup4 lxml
+# -*- coding: utf-8 -*-
+
 
 import pandas as pd
 from selenium import webdriver
@@ -10,6 +11,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.service import Service
+from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.firefox.options import Options
 
 import requests
 from bs4 import BeautifulSoup
@@ -17,16 +21,15 @@ from datetime import datetime
 import pickle
 import time
 
-# Set up Chrome options
+# Set up Firefox options
 options = Options()
 options.add_argument('--no-sandbox')
-options.add_argument("--headless=new")  # Uncomment if you want to run in headless mode
+options.add_argument("--headless")  # Run in headless mode
 options.add_argument("--window-size=1920,1080")
 options.add_argument('--disable-dev-shm-usage')
 options.add_argument('--ignore-certificate-errors')
 options.add_argument('--allow-running-insecure-content')
-user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36'
-options.add_argument(f'user-agent={user_agent}')
+options.set_preference("general.useragent.override", 'Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0')
 
 def initialize_model(Username,Password) :
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
@@ -36,8 +39,8 @@ def initialize_model(Username,Password) :
     username = driver.find_element(By.CSS_SELECTOR, 'input[name="username"]')
     password = driver.find_element(By.CSS_SELECTOR, 'input[name="Password"]')
 
-    username.send_keys(Username)
-    password.send_keys(Password)
+    username.send_keys("JdaKung@gmail.com")
+    password.send_keys("3xp{Kz7r2(rK")
 
     time.sleep(1)
 
@@ -51,7 +54,7 @@ def initialize_model(Username,Password) :
     input("Press Enter to close the browser...")
 
 def summarize(Username,Password,content) :
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=options)
+    driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=options)
 
     driver.get("https://wordcount.com/login")
     
