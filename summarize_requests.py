@@ -55,11 +55,14 @@ def initialize_model(Username,Password) :
 
 def summarize(Username,Password,content) :
     driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=options)
+    wait = WebDriverWait(driver, 10)
 
     driver.get("https://wordcount.com/login")
+
+    time.sleep(1)
     
-    username = driver.find_element(By.CSS_SELECTOR, 'input[name="username"]')
-    password = driver.find_element(By.CSS_SELECTOR, 'input[name="Password"]')
+    username = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[name="username"]')))
+    password = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input[name="Password"]')))
 
     username.send_keys(Username)
     password.send_keys(Password)
