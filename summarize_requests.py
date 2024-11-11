@@ -53,7 +53,7 @@ def initialize_model(Username,Password) :
 
     input("Press Enter to close the browser...")
 
-def summarize(Username,Password,content) :
+def summarize(content,Username="JdaKung@gmail.com",Password="3xp{Kz7r2(rK") :
     driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=options)
     wait = WebDriverWait(driver, 10)
 

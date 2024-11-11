@@ -13,7 +13,7 @@ from summarize_requests import summarize
 
 def create_summary(url, content):
     print('processing url:', url)
-    summary = summarize(os.getenv("USERNAME"),os.getenv("PASSWORD"),content)
+    summary = summarize(content)
     # simplifytext = model.predict([sentence])
     db.save_summary(url=url,summarized_text=summary)
     
