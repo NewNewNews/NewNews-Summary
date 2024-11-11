@@ -32,7 +32,7 @@ def main():
 
     consumer_conf = {
         "bootstrap.servers": os.environ.get("KAFKA_BROKER", "localhost:9092"),
-        "group.id": "news_group",
+        "group.id": "news_group2",
         "auto.offset.reset": "earliest",
     }
 
